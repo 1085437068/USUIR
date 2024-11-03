@@ -1,5 +1,5 @@
 import os
-os.environ['CUDA_VISIBLE_DEVICES'] = '1'
+os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 from torch.utils.data import DataLoader
 from net.net import net
 import argparse
@@ -15,7 +15,7 @@ from net.losses import ColorLoss
 # Training settings
 parser = argparse.ArgumentParser(description='PyTorch UIE')
 parser.add_argument('--batchSize', type=int, default=1, help='training batch size')
-parser.add_argument('--nEpochs', type=int, default=50, help='number of epochs to train for')
+parser.add_argument('--nEpochs', type=int, default=200, help='number of epochs to train for')
 parser.add_argument('--snapshots', type=int, default=1, help='Snapshots')
 parser.add_argument('--start_iter', type=int, default=1, help='Starting Epoch')
 parser.add_argument('--lr', type=float, default=1e-4, help='Learning Rate. Default=1e-4')
@@ -24,11 +24,11 @@ parser.add_argument('--threads', type=int, default=4, help='number of threads fo
 parser.add_argument('--decay', type=int, default='10000', help='learning rate decay type')
 parser.add_argument('--gamma', type=float, default=0.5, help='learning rate decay factor for step decay')
 parser.add_argument('--seed', type=int, default=123, help='random seed to use. Default=123')
-parser.add_argument('--data_train', type=str, default='../Dataset/UIE/UIEBD/train/image')
-parser.add_argument('--label_train', type=str, default='../Dataset/UIE/UIEBD/train/image')
+parser.add_argument('--data_train', type=str, default='./Dataset/UIE/UIEBD/train/image')
+parser.add_argument('--label_train', type=str, default='./Dataset/UIE/UIEBD/train/label')
 parser.add_argument('--data_augmentation', type=bool, default=True)
-parser.add_argument('--data_test', type=str, default='../Dataset/UIE/UIEBD/test/image')
-parser.add_argument('--label_test', type=str, default='../Dataset/UIE/UIEBD/test/image')
+parser.add_argument('--data_test', type=str, default='./Dataset/UIE/UIEBD/test/image')
+parser.add_argument('--label_test', type=str, default='./Dataset/UIE/UIEBD/test/label')
 parser.add_argument('--rgb_range', type=int, default=1, help='maximum value of RGB')
 parser.add_argument('--patch_size', type=int, default=128, help='Size of cropped HR image')
 parser.add_argument('--save_folder', default='weights/', help='Location to save checkpoint models')

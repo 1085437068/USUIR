@@ -3,3 +3,10 @@ pip install torch==1.7.0+cu110 torchvision==0.8.0+cu110 torchaudio==0.7.0 -f htt
 
 2.运行eval.py
 (1)修改为os.environ['CUDA_VISIBLE_DEVICES'] = '0'  --成功
+(2)新建文件夹results/predict放结果
+(3)参数label_test表示GT，data_test表示原图，train同理
+
+3.运行main.py
+(1)修改为os.environ['CUDA_VISIBLE_DEVICES'] = '0'  
+(2)新建文件夹weights放结果
+开始运行时间2024/11/3 19:00-20:30 1h30m--200epoch训练时间
