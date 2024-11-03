@@ -2,7 +2,7 @@
 from __future__ import print_function
 import argparse
 import os
-os.environ['CUDA_VISIBLE_DEVICES'] = '1'
+os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 from torch.utils.data import DataLoader
 from net.net import net
 from data import get_eval_set
@@ -14,8 +14,8 @@ parser.add_argument('--testBatchSize', type=int, default=1, help='testing batch 
 parser.add_argument('--gpu_mode', type=bool, default=True)
 parser.add_argument('--threads', type=int, default=4, help='number of threads for data loader to use')
 parser.add_argument('--rgb_range', type=int, default=1, help='maximum value of RGB')
-parser.add_argument('--data_test', type=str, default='../Dataset/UIE/UIEBD/test/image')
-parser.add_argument('--label_test', type=str, default='../Dataset/UIE/UIEBD/test/image')
+parser.add_argument('--data_test', type=str, default='/home/hzc/CodeRepository/UnderwaterEnhancement/DeepLearning/CNN/UWEnhancement/DATA/UIEB/Test/test')
+parser.add_argument('--label_test', type=str, default='/home/hzc/CodeRepository/UnderwaterEnhancement/DeepLearning/CNN/UWEnhancement/DATA/UIEB/Test/test')
 parser.add_argument('--model', default='final_weight/UIEBD_final.pth', help='Pretrained base model')
 parser.add_argument('--output_folder', type=str, default='results/predict/')
 
@@ -27,8 +27,14 @@ test_set = get_eval_set(opt.data_test, opt.label_test)
 testing_data_loader = DataLoader(dataset=test_set, num_workers=opt.threads, batch_size=1, shuffle=False)
 
 print('===> Building model')
+if not torch.cuda.is_available():
+    raise RuntimeError("CUDA is not available on this system")
 
-model = net().cuda()
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(f"Using device: {device}")
+
+model = net().to(device)
+# model = net().cuda()
 model.load_state_dict(torch.load(opt.model, map_location=lambda storage, loc: storage))
 print('Pre-trained model is loaded.')
 
